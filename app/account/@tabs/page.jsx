@@ -1,0 +1,30 @@
+
+
+import PersonalDetails from "../components/personal-details";
+import ContactInfo from "../components/contact-info";
+import ChangePassword from "../components/change-password";
+import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { getUserByEmail } from "@/queries/users";
+
+
+const Profile = async () => {
+	const session = await auth()
+	const loggedInUser = await getUserByEmail(session?.user?.email)
+	return (
+		<>
+			<PersonalDetails userInfo={loggedInUser} />
+
+			<div className="p-6 rounded-md shadow dark:shadow-gray-800 bg-white dark:bg-slate-900 mt-[30px]">
+				<div className="grid lg:grid-cols-2 grid-cols-1 gap-5">
+					<ContactInfo />
+					 
+					 <ChangePassword email={loggedInUser?.email} />
+				</div>
+				 
+			</div>
+
+		</>
+	);
+}
+
+export default Profile;

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import { Button } from "@/components/ui/button";
 import { SendEmail } from "@/lib/email";

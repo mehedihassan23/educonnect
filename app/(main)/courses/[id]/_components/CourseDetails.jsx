@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CourseOverview from "./CourseOverview";
 import CourseCurriculam from "./CourseCurriculam";
 import CourseInstructor from "./CourseInstructor";
+import Image from "next/image";
 
 
 
@@ -25,13 +26,15 @@ const CourseDetails = ({course}) => {
           {/*  */}
           <div className="flex sm:items-center gap-5 flex-col sm:flex-row sm:gap-6 md:gap-20 mt-6">
             <div className="flex items-center gap-2">
-              <img
+              
+              <Image
                 className="w-[40px] h-[40px] rounded-full"
                 src="https://avatars.githubusercontent.com/u/3633137?v=4"
                 alt="sumit saha"
                 height={20}
                 width={20}
               />
+
               <p className="font-bold"> {course?.instructor?.firstName} {course?.instructor?.lastName}</p>
             </div>
             <div className="flex items-center gap-2 text-sm">

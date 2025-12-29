@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getCourseDetails } from "@/queries/courses";
 import { columns } from "./_components/columns";
 import { DataTable } from "./_components/data-table";

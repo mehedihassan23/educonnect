@@ -50,7 +50,7 @@ export function MainNav({ items, children }) {
 		}
 
 		 fetchMe()
-	}, [session])
+	}, [session, loginSession, router, status])
 	
  
 	return (

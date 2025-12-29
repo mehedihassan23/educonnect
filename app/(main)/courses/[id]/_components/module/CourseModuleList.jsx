@@ -26,7 +26,9 @@ const CourseModuleList = ({module}) => {
                 <div className="space-y-3">
                     {
                         module?.lessonIds && module?.lessonIds.map(lessonId => (
-                            <CourseLessonList lessonId={lessonId} />
+                            <CourseLessonList 
+                            key={lessonId} 
+                            lessonId={lessonId} />
                         ))
                     }
 

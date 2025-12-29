@@ -25,7 +25,7 @@ export async function POST(request) {
 
     const loggedinUser = await getLoggedInUser()
     const lesson = await getLesson(lessonId);
-    const module = await getModulesBySlug(moduleSlug);
+    const singleModule = await getModulesBySlug(moduleSlug);
 
      if (!loggedinUser) {
         return new NextResponse(`You are not authenticated.`, {
@@ -48,7 +48,7 @@ export async function POST(request) {
      const watchEntry = {
         lastTime,
         lesson: lesson.id,
-        module: module.id,
+        module: singleModule.id,
         user: loggedinUser.id,
         state,
     };
@@ -56,7 +56,7 @@ export async function POST(request) {
     try {
          const found = await Watch.findOne({
             lesson: lessonId,
-            module: module.id,
+            module: singleModule.id,
             user: loggedinUser.id,
         }).lean();
 

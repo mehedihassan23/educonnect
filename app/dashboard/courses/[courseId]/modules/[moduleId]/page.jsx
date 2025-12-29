@@ -16,7 +16,7 @@ import { ModuleActions } from "./_components/module-action";
 
 const Module = async ({ params: {courseId, moduleId} }) => {
 
-  const module = await getModule(moduleId)
+  const allmodule = await getModule(moduleId)
   const lessons = replaceMongoIdInArray(module?.lessonIds)
  
  
@@ -24,7 +24,7 @@ const Module = async ({ params: {courseId, moduleId} }) => {
   return (
     <>
       {
-        !module.active && (<AlertBanner
+        !allmodule.active && (<AlertBanner
         label="This module is unpublished. It will not be visible in the course."
         variant="warning"
       />
@@ -42,7 +42,7 @@ const Module = async ({ params: {courseId, moduleId} }) => {
               Back to course setup
             </Link>
             <div className="flex items-center justify-end">
-              <ModuleActions courseId={courseId} module={module} />
+              <ModuleActions courseId={courseId} module={allmodule} />
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@ const Module = async ({ params: {courseId, moduleId} }) => {
                 <h2 className="text-xl">Customize Your module</h2>
               </div>
 
-              <ModuleTitleForm initialData={{title: module.title}} courseId={courseId} chapterId={moduleId} />
+              <ModuleTitleForm initialData={{title: allmodule.title}} courseId={courseId} chapterId={moduleId} />
 
             </div>
             <div>
@@ -67,14 +67,9 @@ const Module = async ({ params: {courseId, moduleId} }) => {
           </div>
           <div>
             <div className="flex items-center gap-x-2">
-              {/* <IconBadge icon={Video} />
-              <h2 className="text-xl">Add a video</h2> */}
+               
             </div>
-            {/* <ChapterVideoForm
-              initialData={chapter}
-              courseId={params.courseId}
-              chapterId={params.chapterId}
-            /> */}
+             
           </div>
         </div>
       </div>

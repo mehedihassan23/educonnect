@@ -56,7 +56,7 @@ const CourseCurriculam = ({ course }) => {
       >
         {
           course?.modules && course?.modules.map(module => (
-            <CourseModuleList module={module} />
+            <CourseModuleList key={module.title} module={module} />
           ))
         }
 

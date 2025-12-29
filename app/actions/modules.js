@@ -51,9 +51,9 @@ export async function updateModule(moduleId, data) {
 
 export async function changeModulePublishState(moduleId) {
    
-    const module = await Module.findById(moduleId);
+    const singleModule = await Module.findById(moduleId);
     try {
-      const res = await Module.findByIdAndUpdate(moduleId, {active: !module.active}, {lean: true});
+      const res = await Module.findByIdAndUpdate(moduleId, {active: !singleModule.active}, {lean: true});
       return res.active
     }catch (err) {
       throw new Error(err);

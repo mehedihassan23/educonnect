@@ -6,28 +6,33 @@ import { getAReport } from "@/queries/reports";
 import { formatMydate } from "@/lib/formatMydate";
 
 
+const baseUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
+export const dynamic = "force-dynamic";
 
 
+export async function GET(request) {
+  try {
+    
 // Fetch custom fonts
-const kalamFontUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fonts/kalam/Kalam-Regular.ttf`;
+const kalamFontUrl = `${baseUrl}/fonts/kalam/Kalam-Regular.ttf`;
 const kalamFontBytes = await fetch(kalamFontUrl).then((res) =>
   res.arrayBuffer()
 );
  
 
-const montserratItalicFontUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fonts/montserrat/Montserrat-Italic.ttf`;
+const montserratItalicFontUrl = `${baseUrl}/fonts/montserrat/Montserrat-Italic.ttf`;
 const montserratItalicFontBytes = await fetch(montserratItalicFontUrl).then(
   (res) => res.arrayBuffer()
 );
  
-const montserratFontUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fonts/montserrat/Montserrat-Medium.ttf`;
+const montserratFontUrl = `${baseUrl}/fonts/montserrat/Montserrat-Medium.ttf`;
 const montserratFontBytes = await fetch(montserratFontUrl).then((res) =>
   res.arrayBuffer()
 );
  
-
-export async function GET(request) {
-  try {
     /* -----------------
      *
      * Configuratios
@@ -40,7 +45,9 @@ export async function GET(request) {
 
     const report = await getAReport({ course: courseId, student:loggedInUser.id });
     
-    const completionDate = report?.completion_date ? formatMydate(report?.completion_date) : formatMyDate(Date.now());
+    const completionDate = report?.completion_date
+  ? formatMydate(report.completion_date)
+  : formatMydate(Date.now());
  
 
     const completionInfo = {
@@ -71,7 +78,7 @@ export async function GET(request) {
      * Logo
      *
      *-------------------*/
-    const logoUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/logo.png`;
+    const logoUrl = `${baseUrl}/logo.png`;
     const logoBytes = await fetch(logoUrl).then((res) => res.arrayBuffer());
     const logo = await pdfDoc.embedPng(logoBytes);
     const logoDimns = logo.scale(0.5);
@@ -200,7 +207,7 @@ export async function GET(request) {
       color: rgb(0, 0, 0),
     });
 
-    const signUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${completionInfo.sign}`;
+    const signUrl = `${baseUrl}${completionInfo.sign}`;
 
     const signBytes = await fetch(signUrl).then((res) => res.arrayBuffer());
     const sign = await pdfDoc.embedPng(signBytes);
@@ -213,7 +220,7 @@ export async function GET(request) {
     });
 
     // pattern
-    const patternUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/pattern.jpg`;
+    const patternUrl = `${baseUrl}/pattern.jpg`;
 
     const patternBytes = await fetch(patternUrl).then((res) =>
       res.arrayBuffer()
@@ -237,6 +244,8 @@ export async function GET(request) {
       headers: { "content-type": "application/pdf" },
     });
   } catch (error) {
- 
-  }
+   
+  return new Response("Failed to generate certificate", { status: 500 });
+}
+
 }
